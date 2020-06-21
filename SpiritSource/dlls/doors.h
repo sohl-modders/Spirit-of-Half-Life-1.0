@@ -1,6 +1,6 @@
 /***
 *
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+*	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
 *	
 *	This product contains software technology licensed from Id 
 *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
@@ -26,6 +26,11 @@
 #define SF_DOOR_ROTATE_X			128
 #define SF_DOOR_USE_ONLY			256	// door must be opened by player's use button.
 #define SF_DOOR_NOMONSTERS			512	// Monster can't open
+#define SF_DOOR_FORCETOUCHABLE		1024 //LRC- Opens when touched, even though it's named and/or "use only"
+//LRC - clashes with 'not in deathmatch'. Replaced with 'Target mode' and 'On/Off Mode' fields.
+//#define SF_DOOR_SYNCHED				2048 //LRC- sends USE_ON/OFF when it starts to open/close (instead of sending
+										 // USE_TOGGLE when fully open/closed); also responds to USE_ON and USE_OFF
+										 // 'correctly'.
 #define SF_DOOR_SILENT				0x80000000
 
 

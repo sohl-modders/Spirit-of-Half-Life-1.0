@@ -1,6 +1,6 @@
 /***
 *
-*	Copyright (c) 1996-2001, Valve LLC. All rights reserved.
+*	Copyright (c) 1999, 2000 Valve LLC. All rights reserved.
 *	
 *	This product contains software technology licensed from Id 
 *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
@@ -57,7 +57,7 @@ LINK_ENTITY_TO_CLASS( monster_bloater, CBloater );
 //=========================================================
 int	CBloater :: Classify ( void )
 {
-	return	CLASS_ALIEN_MONSTER;
+	return m_iClass?m_iClass:CLASS_ALIEN_MONSTER;
 }
 
 //=========================================================
@@ -190,7 +190,10 @@ void CBloater :: Spawn()
 {
 	Precache( );
 
-	SET_MODEL(ENT(pev), "models/floater.mdl");
+	if (pev->model)
+		SET_MODEL(ENT(pev), STRING(pev->model)); //LRC
+	else
+		SET_MODEL(ENT(pev), "models/floater.mdl");
 	UTIL_SetSize( pev, VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
 	pev->solid			= SOLID_SLIDEBOX;
@@ -210,7 +213,10 @@ void CBloater :: Spawn()
 //=========================================================
 void CBloater :: Precache()
 {
-	PRECACHE_MODEL("models/floater.mdl");
+	if (pev->model)
+		PRECACHE_MODEL((char*)STRING(pev->model)); //LRC
+	else
+		PRECACHE_MODEL("models/floater.mdl");
 }	
 
 //=========================================================

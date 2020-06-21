@@ -321,7 +321,7 @@
 // coord, coord, coord (pos) 
 // byte (radius in 10's) 
 // byte byte byte (color)
-// byte (brightness)
+//LRC - ignore this, they're lying // byte (brightness)
 // byte (life in 10's)
 // byte (decay rate in 10's)
 
@@ -594,6 +594,11 @@
 */
 #define	CONTENTS_LADDER		-16
 
+//LRC- New (long overdue) content types for Spirit
+#define	CONTENT_FLYFIELD	-17
+#define	CONTENT_GRAVITY_FLYFIELD	-18
+#define	CONTENT_FOG			-19
+
 #define CONTENT_EMPTY	-1
 #define CONTENT_SOLID	-2
 #define	CONTENT_WATER	-3
@@ -631,6 +636,7 @@
 
 // Trains
 #define	SF_TRAIN_WAIT_RETRIGGER	1
+#define SF_TRAIN_START_ON		4		// Train is initially moving
 #define SF_TRAIN_PASSABLE		8		// Train is not solid -- used to make water trains
 
 // buttons
@@ -701,6 +707,7 @@ enum
 	kRenderFxExplode,			// Scale up really big!
 	kRenderFxGlowShell,			// Glowing Shell
 	kRenderFxClampMinScale,		// Keep this sprite from getting very small (SPRITES only!)
+	kRenderFxReflection,		//LRC - draw a reflection under my feet
 };
 
 

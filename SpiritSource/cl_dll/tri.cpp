@@ -25,6 +25,12 @@ extern "C"
 	void DLLEXPORT HUD_DrawTransparentTriangles( void );
 };
 
+extern float g_fFogColor[4];
+extern float g_fStartDist;
+extern float g_fEndDist;
+extern int g_iWaterLevel;
+
+//LRCT
 //#define TEST_IT
 #if defined( TEST_IT )
 
@@ -53,7 +59,8 @@ void Draw_Triangles( void )
 	if (gHUD.m_hsprCursor == 0)
 	{
 		char sz[256];
-		sprintf( sz, "sprites/cursor.spr" );
+//LRCT		sprintf( sz, "sprites/cursor.spr" );
+		sprintf( sz, "sprites/bubble.spr" ); //LRCT
 		gHUD.m_hsprCursor = SPR_Load( sz );
 	}
 
@@ -91,6 +98,13 @@ void Draw_Triangles( void )
 
 #endif
 
+void RenderFog ( void )
+{
+	//Not in water and we want fog.
+	bool bFog = g_iWaterLevel < 2 && g_fStartDist > 0 && g_fEndDist > 0;
+	gEngfuncs.pTriAPI->Fog ( g_fFogColor, g_fStartDist, g_fEndDist, bFog );
+}
+
 /*
 =================
 HUD_DrawNormalTriangles
@@ -117,6 +131,8 @@ Render any triangles with transparent rendermode needs here
 */
 void DLLEXPORT HUD_DrawTransparentTriangles( void )
 {
+
+	RenderFog();
 
 #if defined( TEST_IT )
 //	Draw_Triangles();

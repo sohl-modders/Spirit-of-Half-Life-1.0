@@ -31,8 +31,6 @@
 #include "demo_api.h"
 #include "vgui_scorepanel.h"
 
-
-
 class CHLVoiceStatusHelper : public IVoiceStatusHelper
 {
 public:
@@ -91,7 +89,12 @@ int __MsgFunc_Logo(const char *pszName, int iSize, void *pbuf)
 	return gHUD.MsgFunc_Logo(pszName, iSize, pbuf );
 }
 
-//DECLARE_MESSAGE(m_Logo, Logo)
+//LRC
+int __MsgFunc_HUDColor(const char *pszName, int iSize, void *pbuf)
+{
+	return gHUD.MsgFunc_HUDColor(pszName, iSize, pbuf );
+}
+
 int __MsgFunc_ResetHUD(const char *pszName, int iSize, void *pbuf)
 {
 	return gHUD.MsgFunc_ResetHUD(pszName, iSize, pbuf );
@@ -100,6 +103,13 @@ int __MsgFunc_ResetHUD(const char *pszName, int iSize, void *pbuf)
 int __MsgFunc_InitHUD(const char *pszName, int iSize, void *pbuf)
 {
 	gHUD.MsgFunc_InitHUD( pszName, iSize, pbuf );
+	return 1;
+}
+
+//LRC
+int __MsgFunc_SetFog(const char *pszName, int iSize, void *pbuf)
+{
+	gHUD.MsgFunc_SetFog( pszName, iSize, pbuf );
 	return 1;
 }
 
@@ -263,9 +273,11 @@ int __MsgFunc_AllowSpec(const char *pszName, int iSize, void *pbuf)
 void CHud :: Init( void )
 {
 	HOOK_MESSAGE( Logo );
+	HOOK_MESSAGE( HUDColor ); //LRC
 	HOOK_MESSAGE( ResetHUD );
 	HOOK_MESSAGE( GameMode );
 	HOOK_MESSAGE( InitHUD );
+	HOOK_MESSAGE( SetFog ); //LRC
 	HOOK_MESSAGE( SetFOV );
 	HOOK_MESSAGE( Concuss );
 
@@ -300,6 +312,7 @@ void CHud :: Init( void )
 
 	m_iLogo = 0;
 	m_iFOV = 0;
+	m_iHUDColor = 0x00FFA000; //255,160,0 -- LRC
 
 	CVAR_CREATE( "zoom_sensitivity_ratio", "1.2", 0 );
 	default_fov = CVAR_CREATE( "default_fov", "90", 0 );
@@ -496,6 +509,16 @@ int CHud::MsgFunc_Logo(const char *pszName,  int iSize, void *pbuf)
 
 	// update Train data
 	m_iLogo = READ_BYTE();
+
+	return 1;
+}
+
+//LRC
+int CHud::MsgFunc_HUDColor(const char *pszName,  int iSize, void *pbuf)
+{
+	BEGIN_READ( pbuf, iSize );
+
+	m_iHUDColor = READ_LONG();
 
 	return 1;
 }

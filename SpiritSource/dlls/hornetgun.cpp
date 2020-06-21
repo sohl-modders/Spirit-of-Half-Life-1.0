@@ -24,7 +24,6 @@
 #include "hornet.h"
 #include "gamerules.h"
 
-
 enum hgun_e {
 	HGUN_IDLE1 = 0,
 	HGUN_FIDGETSWAY,
@@ -258,7 +257,8 @@ void CHgun::SecondaryAttack( void )
 	m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
 
 	m_flNextPrimaryAttack = m_flNextSecondaryAttack = UTIL_WeaponTimeBase() + 0.1;
-	m_flTimeWeaponIdle = gpGlobals->time + UTIL_SharedRandomFloat( m_pPlayer->random_seed, 10, 15 );
+//	m_flTimeWeaponIdle = gpGlobals->time + UTIL_SharedRandomFloat( m_pPlayer->random_seed, 10, 15 );
+	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + UTIL_SharedRandomFloat( m_pPlayer->random_seed, 10, 15 );
 }
 
 
@@ -279,7 +279,7 @@ void CHgun::WeaponIdle( void )
 {
 	Reload( );
 
-	if (m_flTimeWeaponIdle > gpGlobals->time)
+	if (m_flTimeWeaponIdle > UTIL_WeaponTimeBase())//gpGlobals->time)
 		return;
 
 	int iAnim;
@@ -302,4 +302,4 @@ void CHgun::WeaponIdle( void )
 	SendWeaponAnim( iAnim );
 }
 
-#endif
+#endif // HLDEMO_BUILD
